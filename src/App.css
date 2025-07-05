@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+.menu{
+  display: flex;
+  justify-content: center;
+}
+
+.box1{
+  margin: 20px;
+}
+
+
+
+
+
