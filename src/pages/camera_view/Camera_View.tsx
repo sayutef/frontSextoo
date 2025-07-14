@@ -52,7 +52,7 @@ const CameraView: React.FC = () => {
 
  
   return (
-    <div style={{ maxWidth: 640, margin: '0 auto' }}>
+    <div style={{ maxWidth: 840, margin: '0 auto' }}>
       {imageSrc ? (
         <img
           src={imageSrc}
