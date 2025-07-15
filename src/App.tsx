@@ -5,8 +5,8 @@ import SignIn from './pages/singIn/SingIn'
 import Login from './pages/Login/Login'
 import Init from './pages/Init/Init'
 import Home from './pages/Home/Home'
-import CameraView from './pages/camera_view/Camera_View'
 import GpsMap from './presentation/components/GpsMap'
+import CameraView from './presentation/components/CameraView'
 
 function App() {
   return (
