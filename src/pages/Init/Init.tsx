@@ -18,7 +18,7 @@ export default function Init() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
 
           {/* Tarjeta 1 */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center relative">
+          <div className="bg-white rounded-2xl shadow-lg p-6 text-center relative min-h-[400px]">
             <div className="flex justify-between mb-2">
               <h2 className="text-xl font-bold text-teal-600">PyBot</h2>
               <img src={robotSmallInit} alt="Icon" className="w-6 h-6" />
@@ -35,7 +35,7 @@ export default function Init() {
           </div>
 
           {/* Tarjeta 2 */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center relative">
+          <div className="bg-white rounded-2xl shadow-lg p-6 text-center relative min-h-[400px]">
             <div className="flex justify-between mb-2">
               <h2 className="text-xl font-bold text-teal-600">PyBot</h2>
               <img src={robotSmallInit} alt="Icon" className="w-6 h-6" />
@@ -52,7 +52,7 @@ export default function Init() {
           </div>
 
           {/* Tarjeta 3 */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center relative">
+          <div className="bg-white rounded-2xl shadow-lg p-6 text-center relative min-h-[400px]">
             <div className="flex justify-between mb-2">
               <h2 className="text-xl font-bold text-teal-600">PyBot</h2>
               <img src={robotSmallInit} alt="Icon" className="w-6 h-6" />

@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import RobotSmallInit from '../../assets/robotSmallInit.png'
 
 function Menu() {
   const [darkMode, setDarkMode] = useState(false)
@@ -17,7 +18,7 @@ function Menu() {
     <div className={`flex flex-col h-screen w-20 py-4 items-center ${darkMode ? 'bg-gray-800 text-white' : 'bg-teal-500 text-white'}`}>
       
       <div className="bg-white p-2 rounded-full mb-4">
-        <img src="/robot-icon.png" alt="Logo Robot" className="h-6 w-6" />
+        <img src={RobotSmallInit} alt="Logo Robot" className="h-8 w-10" />
       </div>
 
       <div className="flex flex-col items-center gap-6">
