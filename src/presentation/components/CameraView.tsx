@@ -47,7 +47,7 @@ const CameraView: React.FC = () => {
         )}
       </div>
 
-      {detections.length > 0 && (
+      {/* {detections.length > 0 && (
         <div className="mt-6 bg-gray-100 p-4 rounded-xl">
           <strong className="text-lg">Detecciones:</strong>
           <ul className="list-disc list-inside">
@@ -58,7 +58,7 @@ const CameraView: React.FC = () => {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
