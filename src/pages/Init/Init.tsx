@@ -27,18 +27,9 @@ export default function Init() {
           return
         }
 
-        const userIdStr = localStorage.getItem('user_id')
-        const user_id = userIdStr ? Number(userIdStr) : 0
-        console.log('User ID desde localStorage:', user_id)
         console.log('Lista completa de prototipos:', prototypesArray)
 
-        const filteredPrototypes = prototypesArray.filter((proto) => {
-          console.log('Comparando proto.user_id:', proto.user_id, 'con user_id:', user_id)
-          return Number(proto.user_id) === user_id
-        })
-
-        console.log('Prototipos filtrados:', filteredPrototypes)
-        setCards(filteredPrototypes)
+        setCards(prototypesArray)
       } catch (error) {
         console.error('Error al cargar prototipos:', error)
         setCards([])
@@ -61,25 +52,19 @@ export default function Init() {
       confirmButtonText: 'Agregar',
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
-        const prototype_name = (document.getElementById('swal-input1') as HTMLInputElement).value.trim()
-        const model = (document.getElementById('swal-input2') as HTMLInputElement).value.trim()
-        if (!prototype_name || !model) {
+        const prototype_id = (document.getElementById('swal-input1') as HTMLInputElement).value.trim()
+        const prototype_name = (document.getElementById('swal-input2') as HTMLInputElement).value.trim()
+        if (!prototype_id || !prototype_name) {
           Swal.showValidationMessage('Ambos campos son obligatorios')
           return
         }
-        return { prototype_name, model }
+        return { prototype_id, prototype_name }
       }
     })
 
     if (formValues) {
       try {
-        const userIdStr = localStorage.getItem('user_id')
-        const user_id = userIdStr ? Number(userIdStr) : 0
-
-        const newPrototype = await createPrototype({
-          ...formValues,
-          user_id
-        })
+        const newPrototype = await createPrototype(formValues)
 
         setCards((prev) => [...prev, newPrototype])
 
