@@ -1,4 +1,3 @@
-import './GraficL.css';
 import { useEffect, useRef, useState } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import {
@@ -16,10 +15,11 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, Title)
 
 const options = {
   responsive: true,
+  maintainAspectRatio: false,  // clave para responsive
   plugins: {
     title: {
       display: true,
-      text: 'Peso en tiempo real ',
+      text: 'Peso en tiempo real',
     },
     legend: {
       display: true,
@@ -92,7 +92,7 @@ function GraficL() {
   }, []);
 
   return (
-    <div className="grafico-contenedor">
+    <div className="w-full h-[400px] md:h-[500px]">
       <Scatter data={chartData} options={options} />
     </div>
   );
