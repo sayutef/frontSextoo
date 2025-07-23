@@ -5,6 +5,9 @@ import SignIn from './pages/singIn/SingIn'
 import Login from './pages/Login/Login'
 import Init from './pages/Init/Init'
 import Home from './pages/Home/Home'
+import GpsMap from './presentation/components/GpsMap'
+import CameraView from './presentation/components/CameraView'
+
 function App() {
   return (
     <Routes>
@@ -14,6 +17,8 @@ function App() {
       <Route path='/singin' element={<SignIn />} />
       <Route path="/login" element={<Login />} />
       <Route path="/init" element={<Init />} />
+      <Route path="/camera-view" element={<CameraView />} />
+      <Route path="/map-view" element={<GpsMap />}/>
     </Routes>
   )
 }
