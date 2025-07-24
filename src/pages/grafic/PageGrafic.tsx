@@ -5,12 +5,16 @@ import GraficL from '../../components/grafic_line/GraficL';
 import GraficHistogram from '../../components/grafic_histogram/GraficHistogram';
 import GraficRing from '../../components/grafic_ring/GraficRing';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import GraficCake from '../../components/graficCake/graficCake';
+import GraficOgive from '../../components/graficOgive/graficOgive';
 
 function PageGrafic() {
   const graficas = [
-    { titulo: 'Peso en tiempo real', componente: <GraficL /> },
+    { titulo: 'Peso en tiempo real', componente: <GraficCake /> },
     { titulo: 'Histograma de Frecuencia', componente: <GraficHistogram /> },
     { titulo: 'Probabilidad (Anillo)', componente: <GraficRing /> },
+    { titulo: 'Probabilidad (Anillo)', componente: <GraficOgive /> },
+    { titulo: 'Probabilidad (Anillo)', componente: <GraficL /> },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
