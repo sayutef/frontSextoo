@@ -4,7 +4,9 @@ import {
   UserCircleIcon,
   SunIcon,
   MoonIcon,
-  ArrowRightOnRectangleIcon // 👈 ícono para "Salir"
+  ArrowRightOnRectangleIcon,
+  MapIcon,      // 🗺️ Ícono para "Mapa"
+  CameraIcon    // 📷 Ícono para "Cámara"
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import RobotSmallInit from '../../assets/robotSmallInit.png';
@@ -30,6 +32,18 @@ function Menu({ darkMode, toggleDarkMode }) {
           <span className="font-semibold hover:text-gray-100">Gráficas</span>
         </Link>
 
+        {/* Nuevo: Mapa */}
+        <Link to="/map-view" className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition">
+          <MapIcon className="h-6 w-6" />
+          <span className="font-semibold hover:text-gray-100">Mapa</span>
+        </Link>
+
+        {/* Nuevo: Cámara */}
+        <Link to="/camera-view" className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition">
+          <CameraIcon className="h-6 w-6" />
+          <span className="font-semibold hover:text-gray-100">Cámara</span>
+        </Link>
+
         <button onClick={toggleDarkMode} className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition">
           {darkMode ? (
             <>
@@ -44,10 +58,17 @@ function Menu({ darkMode, toggleDarkMode }) {
           )}
         </button>
 
-        <Link to="/" className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition">
-          <ArrowRightOnRectangleIcon className="h-6 w-6" />
-          <span className="font-semibold hover:text-gray-100">Salir</span>
-        </Link>
+        <button
+          onClick={() => {
+            localStorage.removeItem('token')
+            window.location.href = '/' // redirige forzadamente
+        }}
+  className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition"
+>
+  <ArrowRightOnRectangleIcon className="h-6 w-6" />
+  <span className="font-semibold hover:text-gray-100">Salir</span>
+</button>
+
       </div>
     </div>
   );
