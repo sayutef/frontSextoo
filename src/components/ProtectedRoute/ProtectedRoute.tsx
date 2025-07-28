@@ -1,7 +1,13 @@
 // src/ProtectedRoute.jsx
 import { Navigate } from 'react-router-dom'
 
-const ProtectedRoute = ({ children }) => {
+import type { ReactNode } from 'react';
+
+interface ProtectedRouteProps {
+  children: ReactNode;
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const token = localStorage.getItem('token')
 
   // Si no hay token, redirigir al login

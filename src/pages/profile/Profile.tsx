@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Menu from '../../components/menu/menu';
 import robotPassword from '../../assets/robotPassword.png';
 import User from '../../assets/userd.png';

@@ -9,6 +9,7 @@ import {
   Legend,
   Title
 } from 'chart.js';
+// @ts-expect-error: serviceWeight does not have TypeScript type definitions yet
 import { serviceWeight } from '../../services/grafic/weight/serviceWeight.js';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, Title);
@@ -23,13 +24,13 @@ const options = {
     },
     legend: {
       display: true,
-      position: 'top',
+      position: 'top' as const,
     },
   },
   scales: {
     x: {
-      type: 'linear',
-      position: 'bottom',
+      type: 'linear' as const,
+      position: 'bottom' as const,
       title: {
         display: true,
         text: 'Tiempo (segundos)',
@@ -44,10 +45,31 @@ const options = {
   },
 };
 
+// Define el tipo de un punto de datos para Chart.js
+interface DataPoint {
+  x: number;
+  y: number;
+}
+
+// Define el tipo para chartData según Chart.js
+interface ChartDataType {
+  datasets: {
+    type: 'scatter';
+    label: string;
+    data: DataPoint[];
+    backgroundColor: string;
+    borderColor: string;
+    pointRadius: number;
+    showLine: boolean;
+    tension: number;
+  }[];
+}
+
 function GraficL() {
-  const [chartData, setChartData] = useState({
+  // Estado con tipado explícito
+  const [chartData, setChartData] = useState<ChartDataType>({
     datasets: [{
-      type: 'line',
+      type: 'scatter',
       label: 'Peso (g)',
       data: [],
       backgroundColor: 'rgba(75,192,192,1)',
@@ -59,11 +81,15 @@ function GraficL() {
   });
 
   const startTimeRef = useRef(Date.now());
-  const socketRef = useRef(null);
-  const lastUpdateRef = useRef(0); 
+
+  // Aquí indicamos que el ref puede ser un WebSocket o null
+  const socketRef = useRef<WebSocket | null>(null);
+
+  const lastUpdateRef = useRef(0);
 
   useEffect(() => {
-    socketRef.current = serviceWeight((weight) => {
+    // Aquí asumimos que weight es número (ajusta si no es así)
+    socketRef.current = serviceWeight((weight: number) => {
       const now = Date.now();
 
       if (now - lastUpdateRef.current >= 1000) {
@@ -79,6 +105,7 @@ function GraficL() {
             data: [...prev.datasets[0].data, newPoint],
             showLine: true,
             tension: 0.4,
+            type: 'scatter',
           }],
         }));
       }

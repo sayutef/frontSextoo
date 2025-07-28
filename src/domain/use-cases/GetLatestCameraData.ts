@@ -1,4 +1,4 @@
-import type { CamMessage } from "../entities/CamMessageData";
+import type { CamData } from "../entities/CamMessageData";
 import type { ICameraRepository } from "../repositories/ICameraRepository";
 
 
@@ -12,7 +12,7 @@ export class SubscribeToCameraUpdates {
 
     execute(
         prototypeId: string,
-        onData: (data: CamMessage) => void
+        onData: (data: CamData) => void
     ) {
         this.repository.connect(prototypeId);
         this.repository.onUpdate(onData);
