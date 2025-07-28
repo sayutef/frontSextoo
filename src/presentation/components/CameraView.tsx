@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { cameraService } from "../services/CameraService";
-import type { Detection, CamData } from "../../domain/entities/CamMessageData";
+import type { CamData } from "../../domain/entities/CamMessageData";
 import fallbackImg from "../../assets/error-message.png"; 
 import Menu from "../../components/menu/menu";
 
 const CameraView: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [detections, setDetections] = useState<Detection[]>([]);
+  // Removed unused detections state
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   useEffect(() => {
     cameraService.execute("1234aleo", (data: CamData) => {
@@ -15,7 +18,7 @@ const CameraView: React.FC = () => {
         : `data:image/jpeg;base64,${data.image}`;
 
       setImageSrc(base64Image);
-      setDetections(data.detections);
+      // Removed setDetections as detections state is not used
     });
 
     return () => {
@@ -27,7 +30,7 @@ const CameraView: React.FC = () => {
     <div className="flex h-screen bg-white">
       {/* Menu sin bordes, sin sombra */}
       <div className="w-64 bg-white">
-        <Menu />
+        <Menu darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       </div>
 
       {/* Contenido sin sombra ni borde, solo padding */}
@@ -56,6 +59,7 @@ const CameraView: React.FC = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

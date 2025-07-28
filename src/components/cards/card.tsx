@@ -1,5 +1,3 @@
-// Card.tsx
-import React from 'react'
 import { FaHeart } from 'react-icons/fa'
 import robotInit from '../../assets/robotInit.png'
 import robotSmallInit from '../../assets/robotSmallInit.png'

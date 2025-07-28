@@ -15,10 +15,14 @@ const robotIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-const DEFAULT_POSITION: [number, number] = [16.6189, -93.1022];
 
 const GpsMap: React.FC = () => {
   const [data, setData] = useState<GPSData | null>(null);
+
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setDarkMode(prev => !prev);
+  };
 
   useEffect(() => {
     gpsService.execute("1234aleo", setData);
@@ -29,7 +33,7 @@ const GpsMap: React.FC = () => {
     <div className="flex h-screen bg-white">
       {/* Menu fijo a la izquierda, sin bordes ni sombra */}
       <div className="w-64 bg-white">
-        <Menu />
+        <Menu darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       </div>
 
       {/* Contenido principal a la derecha */}
