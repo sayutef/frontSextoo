@@ -6,12 +6,15 @@ import {
   MoonIcon,
   ArrowRightOnRectangleIcon,
   MapIcon,      // 🗺️ Ícono para "Mapa"
-  CameraIcon    // 📷 Ícono para "Cámara"
+  CameraIcon,
+  ArrowLeftIcon,
 } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RobotSmallInit from '../../assets/robotSmallInit.png';
 
 function Menu({ darkMode, toggleDarkMode }) {
+  const navigate = useNavigate(); // <-- Aquí declaras useNavigate
+
   return (
     <div className={`flex flex-col h-[120vh] w-52 py-8 px-4 transition-colors duration-300 ${darkMode ? 'bg-gray-800 text-white' : 'bg-teal-500 text-white'}`}>
       
@@ -32,13 +35,11 @@ function Menu({ darkMode, toggleDarkMode }) {
           <span className="font-semibold hover:text-gray-100">Gráficas</span>
         </Link>
 
-        {/* Nuevo: Mapa */}
         <Link to="/map-view" className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition">
           <MapIcon className="h-6 w-6" />
           <span className="font-semibold hover:text-gray-100">Mapa</span>
         </Link>
 
-        {/* Nuevo: Cámara */}
         <Link to="/camera-view" className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition">
           <CameraIcon className="h-6 w-6" />
           <span className="font-semibold hover:text-gray-100">Cámara</span>
@@ -58,16 +59,25 @@ function Menu({ darkMode, toggleDarkMode }) {
           )}
         </button>
 
+        {/* Botón para regresar a /init */}
+        <button
+          onClick={() => navigate('/init')}
+          className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition"
+        >
+          <ArrowLeftIcon className="h-6 w-6" />
+          <span className="font-semibold hover:text-gray-100">Regresar</span>
+        </button>
+
         <button
           onClick={() => {
-            localStorage.removeItem('token')
-            window.location.href = '/' // redirige forzadamente
-        }}
-  className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition"
->
-  <ArrowRightOnRectangleIcon className="h-6 w-6" />
-  <span className="font-semibold hover:text-gray-100">Salir</span>
-</button>
+            localStorage.removeItem('token');
+            window.location.href = '/'; // redirige forzadamente
+          }}
+          className="flex items-center gap-3 px-2 py-2 rounded hover:bg-teal-600 transition"
+        >
+          <ArrowRightOnRectangleIcon className="h-6 w-6" />
+          <span className="font-semibold hover:text-gray-100">Salir</span>
+        </button>
 
       </div>
     </div>

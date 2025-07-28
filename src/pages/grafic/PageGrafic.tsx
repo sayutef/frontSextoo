@@ -2,19 +2,18 @@ import { useState } from 'react';
 import './PageGrafic.css';
 import Menu from '../../components/menu/menu';
 import GraficL from '../../components/grafic_line/GraficL';
-import GraficHistogram from '../../components/grafic_histogram/GraficHistogram';
-import GraficRing from '../../components/grafic_ring/GraficRing';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
-import GraficCake from '../../components/graficCake/graficCake';
-import GraficOgive from '../../components/graficOgive/graficOgive';
+import WorkPeriodSuccessProbability from '../../components/WorkPeriodSuccessProbability/WorkPeriodSuccessProbability.tsx';
+import GraficaBarras from '../../components/grafic_barChart/graficBar.tsx';
+import CorrelationChart from '../../components/graficCorrelation/graficCorrelation.tsx';
 
 function PageGrafic() {
   const graficas = [
-    { titulo: 'Peso en tiempo real', componente: <GraficCake /> },
-    { titulo: 'Histograma de Frecuencia', componente: <GraficHistogram /> },
-    { titulo: 'Probabilidad (Anillo)', componente: <GraficRing /> },
-    { titulo: 'Probabilidad (Anillo)', componente: <GraficOgive /> },
-    { titulo: 'Probabilidad (Anillo)', componente: <GraficL /> },
+
+    { titulo: 'Ojiva', componente: <WorkPeriodSuccessProbability /> },
+    { titulo: 'relativa', componente: <GraficL /> },
+    { titulo: 'Gráfica de Barras', componente: <GraficaBarras />  },
+    { titulo: 'Gráfica de Correlacion', componente: <CorrelationChart />  },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);

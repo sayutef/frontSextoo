@@ -7,12 +7,15 @@ import {
   Legend,
 } from 'chart.js'
 
-// Registrar los componentes necesarios de Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 interface PeriodItem {
-  period: string
-  weight: number
+  period_id: number
+  day_work: string
+  start_hour: string
+  end_hour: string
+  avg_weight: number
+  readings_count: number
 }
 
 const GraficRing = () => {
@@ -20,20 +23,25 @@ const GraficRing = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:1201/graphics/ring?user_id=1&days=30')
+    fetch('https://pybot-analisis.namixcode.cc/graphics/anillo?user_id=17&days=30')
       .then(res => res.json())
       .then(json => {
         const periods: PeriodItem[] = json.data.attributes.periods
 
         if (periods.length > 0) {
-          const labels = periods.map(p => p.period)
-          const data = periods.map(p => p.weight)
+          const total = periods.reduce((sum, p) => sum + p.avg_weight, 0)
+
+          const labels = periods.map(p => 
+            `${p.day_work} (${p.start_hour.slice(11, 16)} - ${p.end_hour.slice(11, 16)})`
+          )
+
+          const data = periods.map(p => (p.avg_weight / total).toFixed(4)) // Normalizado como probabilidad
 
           setChartData({
             labels,
             datasets: [
               {
-                label: 'Peso por periodo',
+                label: 'Probabilidad basada en peso promedio',
                 data,
                 backgroundColor: [
                   '#36A2EB',
@@ -68,14 +76,14 @@ const GraficRing = () => {
       },
       title: {
         display: true,
-        text: 'Distribución de Peso por Periodo',
+        text: 'Distribución de Probabilidad por Periodo',
       },
     },
   }
 
   return (
     <div className="w-full max-w-md mx-auto mt-8 bg-white p-6 rounded-2xl shadow-md">
-      <h2 className="text-xl font-bold text-center mb-4">Gráfica de Anillo</h2>
+      <h2 className="text-xl font-bold text-center mb-4">Gráfica de Anillo (Probabilidad)</h2>
       {loading ? (
         <p className="text-center text-gray-500">Cargando datos...</p>
       ) : chartData ? (

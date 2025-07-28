@@ -10,45 +10,96 @@ import {
   Legend
 } from 'chart.js'
 
-// Registrar los elementos necesarios
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend)
-
-interface CumulativePoint {
-  distance: number
-  frequency: number
-}
 
 const GraficOgive = () => {
   const [chartData, setChartData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:1201/graphics/ojiva?user_id=1&days=30')
+    const token = localStorage.getItem('token')
+    if (!token) {
+      setLoading(false)
+      return
+    }
+
+    // Decodificar token para obtener userId
+    const decodeJWT = (token: string) => {
+      try {
+        const payload = token.split('.')[1]
+        const decoded = atob(payload)
+        return JSON.parse(decoded)
+      } catch {
+        return null
+      }
+    }
+
+    const decoded = decodeJWT(token)
+    const userId = decoded?.sub
+    if (!userId) {
+      setLoading(false)
+      return
+    }
+
+    fetch(`https://pybot-analisis.namixcode.cc/graphics/probabilidad/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then(res => res.json())
       .then(json => {
-        const cumulative: CumulativePoint[] = json.data.attributes.cumulative_data
-
-        if (cumulative.length > 0) {
-          const labels = cumulative.map(p => `${p.distance} km`)
-          const data = cumulative.map(p => p.frequency)
-
-          setChartData({
-            labels,
-            datasets: [
-              {
-                label: 'Frecuencia Acumulada',
-                data,
-                borderColor: '#6366f1',
-                backgroundColor: '#a5b4fc',
-                fill: false,
-                tension: 0.3,
-              },
-            ],
-          })
-        } else {
+        const weights: number[] = json.data.attributes.cumulative_weights.map(
+          (item: any) => item.avg_weight
+        )
+        if (weights.length === 0) {
           setChartData(null)
+          setLoading(false)
+          return
         }
 
+        // Definir tamaño del intervalo (bin)
+        const binSize = 500
+        const maxWeight = Math.max(...weights)
+        const binsCount = Math.ceil(maxWeight / binSize)
+
+        // Crear intervalos y calcular frecuencias
+        const bins = Array.from({ length: binsCount }, (_, i) => ({
+          start: i * binSize,
+          end: (i + 1) * binSize,
+          frequency: 0,
+        }))
+
+        weights.forEach(weight => {
+          const binIndex = Math.min(
+            Math.floor(weight / binSize),
+            binsCount - 1
+          )
+          bins[binIndex].frequency += 1
+        })
+
+        // Calcular frecuencia acumulada
+        let cumulative = 0
+        const cumulativeFrequencies = bins.map(bin => {
+          cumulative += bin.frequency
+          return cumulative
+        })
+
+        // Etiquetas para X (intervalos)
+        const labels = bins.map(bin => `${bin.start}-${bin.end - 1}`)
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: 'Frecuencia Acumulada',
+              data: cumulativeFrequencies,
+              borderColor: '#6366f1',
+              backgroundColor: '#a5b4fc',
+              fill: false,
+              tension: 0.3,
+            },
+          ],
+        })
         setLoading(false)
       })
       .catch(error => {
@@ -63,7 +114,7 @@ const GraficOgive = () => {
     plugins: {
       legend: {
         display: true,
-        position: 'bottom' as const
+        position: 'bottom' as const,
       },
       title: {
         display: true,
@@ -81,7 +132,7 @@ const GraficOgive = () => {
       x: {
         title: {
           display: true,
-          text: 'Distancia (km)',
+          text: 'Intervalos de peso',
         },
       },
     },

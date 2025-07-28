@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
+import { jwtDecode } from 'jwt-decode'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,12 +21,34 @@ ChartJS.register(
   Legend
 )
 
+// Función para obtener user_id desde el token
+const getUserIdFromToken = (): number | null => {
+  const token = localStorage.getItem('token')
+  if (!token) return null
+
+  try {
+    const decoded: any = jwtDecode(token)
+    const userId = parseInt(decoded.sub) // "sub" es el campo con el user_id
+    return isNaN(userId) ? null : userId
+  } catch (error) {
+    console.error('Error al decodificar el token:', error)
+    return null
+  }
+}
+
 const GraficHistogram = () => {
   const [chartData, setChartData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:1201/graphics/histogram?user_id=1&days=7')
+    const userId = getUserIdFromToken()
+    if (!userId) {
+      console.error('No se pudo obtener el user_id del token.')
+      setLoading(false)
+      return
+    }
+
+    fetch(`https://pybot-analisis.namixcode.cc/graphics/histogram?user_id=${userId}&days=7`)
       .then(res => res.json())
       .then(json => {
         const rawData: number[] = json.data.attributes.speed_data

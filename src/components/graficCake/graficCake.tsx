@@ -10,9 +10,10 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
+// Se ajustan las propiedades al JSON real
 interface DistributionItem {
-  type: string
-  value: number
+  waste_type: string
+  total_amount: number
 }
 
 const GraficCake = () => {
@@ -20,14 +21,14 @@ const GraficCake = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:1201/graphics/pastel?user_id=1&days=30')
+    fetch('https://pybot-analisis.namixcode.cc/graphics/pastel?user_id=14')
       .then(res => res.json())
       .then(json => {
         const distribution: DistributionItem[] = json.data.attributes.distribution
 
         if (distribution.length > 0) {
-          const labels = distribution.map(item => item.type)
-          const data = distribution.map(item => item.value)
+          const labels = distribution.map(item => item.waste_type)
+          const data = distribution.map(item => item.total_amount)
 
           setChartData({
             labels,
@@ -36,12 +37,12 @@ const GraficCake = () => {
                 label: 'Distribución de residuos',
                 data,
                 backgroundColor: [
-                  '#f87171',
-                  '#60a5fa',
-                  '#34d399',
-                  '#fbbf24',
-                  '#a78bfa',
-                  '#f472b6'
+                  '#f87171', // rojo
+                  '#60a5fa', // azul
+                  '#34d399', // verde
+                  '#fbbf24', // amarillo
+                  '#a78bfa', // morado
+                  '#f472b6'  // rosa
                 ],
                 borderWidth: 1
               }

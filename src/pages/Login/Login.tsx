@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import Swal from 'sweetalert2';               // Importa SweetAlert2
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { HiOutlineMail, HiOutlineLockClosed, HiOutlineUser } from 'react-icons/hi';
-import { serviceLogin } from '../../services/login/serviceLogin';  // Importa el servicio
-import { serviceAccount } from '../../services/acount/serviceAccount'; // Importa el servicio de registro
+import { serviceLogin } from '../../services/login/serviceLogin';
+import { serviceAccount } from '../../services/acount/serviceAccount';
 import { useNavigate } from 'react-router-dom';
-
 
 export default function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -20,52 +20,57 @@ export default function Login() {
   const [loginPassword, setLoginPassword] = useState('');
   const navigate = useNavigate();
 
-
-  // Función para manejar registro
   const handleSignUp = () => {
-    const userData = {
-      first_name,
-      last_name,
-      email,
-      password,
-    };
+    const userData = { first_name, last_name, email, password };
 
-    // Aquí llamas a tu servicio de registro (serviceAccount)
-    // Por simplicidad no lo modifiqué, asumo que ya funciona
     serviceAccount(
       userData,
       (data) => {
         console.log('Registro exitoso:', data);
-        alert('Usuario registrado con éxito');
+        Swal.fire({
+          icon: 'success',
+          title: '¡Usuario registrado con éxito!',
+          showConfirmButton: false,
+          timer: 1500
+        });
       },
       (errorMessage) => {
         console.error('Error en el registro:', errorMessage);
-        alert(`Error: ${errorMessage}`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en el registro',
+          text: errorMessage,
+        });
       }
     );
   };
 
-  // Función para manejar inicio de sesión
   const handleSignIn = () => {
-  const credentials = {
-    email: loginEmail,
-    password: loginPassword,
+    const credentials = { email: loginEmail, password: loginPassword };
+
+    serviceLogin(
+      credentials,
+      (data) => {
+        console.log('Inicio de sesión exitoso:', data);
+        Swal.fire({
+          icon: 'success',
+          title: '¡Bienvenido!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          navigate('/init');
+        });
+      },
+      (error) => {
+        console.error('Error al iniciar sesión:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al iniciar sesión',
+          text: error,
+        });
+      }
+    );
   };
-
-  serviceLogin(
-    credentials,
-    (data) => {
-      console.log('Inicio de sesión exitoso:', data);
-      alert('¡Bienvenido!');
-      navigate('/init');
-    },
-    (error) => {
-      console.error('Error al iniciar sesión:', error);
-      alert(`Error: ${error}`);
-    }
-  );
-};
-
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-[#fafaf5]">
@@ -79,7 +84,7 @@ export default function Login() {
           {/* Sign In Form */}
           <div className="w-1/2 h-full flex items-center justify-center bg-white">
             <div className="max-w-md w-full px-8 -ml-190">
-              <h1 className="text-3xl font-bold text-teal-600 mb-6">Sign In</h1>
+              <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-35">Sign In</h1>
               <div className="flex space-x-4 text-xl text-gray-700 mb-6 justify-center">
                 <FaFacebookF />
                 <FaInstagram />
@@ -122,7 +127,7 @@ export default function Login() {
           {/* Sign Up Form */}
           <div className="w-1/2 h-full flex items-center justify-center bg-white">
             <div className="max-w-md w-full px-12 ml-190">
-              <h1 className="text-3xl font-bold text-teal-600 mb-6">Create Account</h1>
+              <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-20">Create Account</h1>
               <div className="flex space-x-4 text-xl text-gray-700 mb-6 justify-center">
                 <FaFacebookF />
                 <FaInstagram />
