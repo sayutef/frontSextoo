@@ -1,84 +1,61 @@
-  import { useEffect, useState } from 'react'
-  import { Scatter } from 'react-chartjs-2'
-  import {
-    Chart as ChartJS,
-    PointElement,
-    LinearScale,
-    Tooltip,
-    Legend,
-  } from 'chart.js'
+import { useEffect, useState } from 'react'
+import { Scatter } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  PointElement,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from 'chart.js'
 
-  ChartJS.register(PointElement, LinearScale, Tooltip, Legend)
+ChartJS.register(PointElement, LinearScale, Tooltip, Legend)
 
-  const decodeJWT = (token: string) => {
-    try {
-      const payload = token.split('.')[1]
-      const decoded = atob(payload)
-      return JSON.parse(decoded)
-    } catch (error) {
-      console.error('Error decoding token:', error)
-      return null
-    }
-  }
+const CorrelationChart = () => {
+  const [chartData, setChartData] = useState<any>(null)
 
-  const CorrelationChart = () => {
-    const [chartData, setChartData] = useState<any>(null)
+  useEffect(() => {
+    // Datos falsos para prueba
+    const fakeData = [
+      { distance_traveled: 10, weight_waste: 2 },
+      { distance_traveled: 20, weight_waste: 4.5 },
+      { distance_traveled: 15, weight_waste: 3.2 },
+      { distance_traveled: 30, weight_waste: 6 },
+      { distance_traveled: 25, weight_waste: 5.1 },
+      { distance_traveled: 12, weight_waste: 2.7 },
+      { distance_traveled: 18, weight_waste: 3.9 },
+      { distance_traveled: 35, weight_waste: 6.8 },
+      { distance_traveled: 28, weight_waste: 5.5 },
+      { distance_traveled: 22, weight_waste: 4.3 },
+    ]
 
-    useEffect(() => {
-      const token = localStorage.getItem('token')
-      if (!token) return
+    const points = fakeData.map((item) => ({
+      x: item.distance_traveled,
+      y: item.weight_waste,
+    }))
 
-      const decoded = decodeJWT(token)
-      const userId = decoded?.sub
-      if (!userId) return
-
-      fetch(`https://pybot-analisis.namixcode.cc/graphics/correlacion/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    setChartData({
+      datasets: [
+        {
+          label: 'Distancia recorrida vs Peso de desecho',
+          data: points,
+          backgroundColor: 'rgba(16, 185, 129, 0.7)',
         },
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error('Error en la solicitud')
-          return res.json()
-        })
-        .then((data) => {
-          const rawPoints = data?.data?.attributes?.points
-          if (!rawPoints || !Array.isArray(rawPoints)) {
-            console.error('Datos inválidos: points no existe o no es array')
-            setChartData(null)
-            return
-          }
+      ],
+    })
+  }, [])
 
-          const points = rawPoints.map((item: any) => ({
-            x: item.distance_traveled,
-            y: item.weight_waste,
-          }))
+  return (
+    <div className="p-4 bg-white rounded-xl shadow-md w-200">
+      <h2 className="text-xl font-bold mb-4 text-center">
+        Correlación Distancia vs Peso de Desperdicio
+      </h2>
+      {chartData ? (
+        <Scatter data={chartData} />
+      ) : (
+        <p className="text-center text-gray-500">No hay datos para mostrar.</p>
+      )}
+    </div>
+  )
+}
 
-          setChartData({
-            datasets: [
-              {
-                label: 'Distancia recorrida vs Peso de desecho',
-                data: points,
-                backgroundColor: 'rgba(16, 185, 129, 0.7)',
-              },
-            ],
-          })
-        })
-        .catch((error) => {
-          console.error('Error fetching correlacion:', error)
-        })
-    }, [])
-
-    return (
-      <div className="p-4 bg-white rounded-xl shadow-md w-200">
-        <h2 className="text-xl font-bold mb-4 text-center">Correlación Distancia vs Peso de Desperdicio</h2>
-        {chartData ? (
-          <Scatter data={chartData} />
-        ) : (
-          <p className="text-center text-gray-500">No hay datos para mostrar.</p>
-        )}
-      </div>
-    )
-  }
-
-  export default CorrelationChart
+export default CorrelationChart

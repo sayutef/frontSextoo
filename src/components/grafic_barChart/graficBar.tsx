@@ -11,88 +11,37 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend)
 
-const dayMap: Record<string, string> = {
-  Mon: 'Lunes',
-  Tue: 'Martes',
-  Wed: 'Miércoles',
-  Thu: 'Jueves',
-  Fri: 'Viernes',
-  Sat: 'Sábado',
-  Sun: 'Domingo',
-}
-
 const allDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
 const BarChart = () => {
   const [chartData, setChartData] = useState<any>(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) return
-
-    // Decodifica token para obtener userId
-    const decodeJWT = (token: string) => {
-      try {
-        const payload = token.split('.')[1]
-        const decoded = atob(payload)
-        return JSON.parse(decoded)
-      } catch {
-        return null
-      }
+    // Datos falsos de horas trabajadas por día (en español)
+    const fakeHours: Record<string, number> = {
+      Lunes: 6.5,
+      Martes: 7.2,
+      Miércoles: 5.8,
+      Jueves: 8.0,
+      Viernes: 6.9,
+      Sábado: 3.5,
+      Domingo: 0,
     }
 
-    const decoded = decodeJWT(token)
-    const userId = decoded?.sub
-    if (!userId) return
+    const orderedLabels = allDays
+    const orderedHours = allDays.map((day) => fakeHours[day] ?? 0)
 
-    fetch(`https://pybot-analisis.namixcode.cc/graphics/barras/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    setChartData({
+      labels: orderedLabels,
+      datasets: [
+        {
+          label: 'Horas Trabajadas',
+          data: orderedHours,
+          backgroundColor: 'rgba(59, 130, 246, 0.7)',
+          borderRadius: 5,
+        },
+      ],
     })
-      .then((res) => {
-        if (!res.ok) throw new Error('Error en la solicitud')
-        return res.json()
-      })
-      .then((data) => {
-        const apiData = data.data.attributes.data
-
-        // Inicializar horas por día (español)
-        const hoursByDay: Record<string, number> = {}
-        allDays.forEach((day) => {
-          hoursByDay[day] = 0
-        })
-
-        // Sumar horas usando el mapeo de días
-        apiData.forEach((item: any) => {
-          const dayEng = item.day_work
-          const dayEsp = dayMap[dayEng]
-          if (dayEsp && hoursByDay[dayEsp] !== undefined) {
-            const start = new Date(item.start_hour)
-            const end = new Date(item.end_hour)
-            const hoursWorked = (end.getTime() - start.getTime()) / (1000 * 60 * 60)
-            hoursByDay[dayEsp] += hoursWorked
-          }
-        })
-
-        const orderedLabels = allDays
-        const orderedHours = allDays.map((day) => hoursByDay[day])
-
-        setChartData({
-          labels: orderedLabels,
-          datasets: [
-            {
-              label: 'Horas Trabajadas',
-              data: orderedHours,
-              backgroundColor: 'rgba(59, 130, 246, 0.7)',
-              borderRadius: 5,
-            },
-          ],
-        })
-      })
-      .catch((err) => {
-        console.error('Error al obtener los datos:', err)
-      })
   }, [])
 
   return (

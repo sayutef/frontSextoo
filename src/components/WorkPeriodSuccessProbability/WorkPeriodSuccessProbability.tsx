@@ -12,17 +12,6 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend)
 
-const decodeJWT = (token: string) => {
-  try {
-    const payload = token.split('.')[1]
-    const decoded = atob(payload)
-    return JSON.parse(decoded)
-  } catch (error) {
-    console.error('Error decoding token:', error)
-    return null
-  }
-}
-
 const WorkPeriodSuccessProbability = () => {
   const [chartData, setChartData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -30,84 +19,65 @@ const WorkPeriodSuccessProbability = () => {
   const fixedWeight = 0.15 // 150 gramos en kg
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      setLoading(false)
-      return
+    // Datos falsos simulados en gramos
+    const fakeDataPoints = [
+      { avg_weight: 80 },
+      { avg_weight: 95 },
+      { avg_weight: 110 },
+      { avg_weight: 125 },
+      { avg_weight: 140 },
+      { avg_weight: 155 },
+      { avg_weight: 170 },
+      { avg_weight: 185 },
+      { avg_weight: 200 },
+      { avg_weight: 215 },
+    ]
+
+    // Ordenar por peso promedio
+    fakeDataPoints.sort((a, b) => a.avg_weight - b.avg_weight)
+
+    const total = fakeDataPoints.length
+    let cumulativeCount = 0
+    const weights: number[] = []
+    const probabilities: number[] = []
+
+    // Convertir gramos a kilogramos y llenar pesos
+    for (const p of fakeDataPoints) {
+      weights.push(p.avg_weight / 1000)
     }
 
-    const decoded = decodeJWT(token)
-    const userId = decoded?.sub
-    if (!userId) {
-      setLoading(false)
-      return
+    // Calcular probabilidades acumuladas
+    for (let i = 0; i < fakeDataPoints.length; i++) {
+      cumulativeCount += 1
+      probabilities.push(cumulativeCount / total)
     }
 
-    fetch(`https://pybot-analisis.namixcode.cc/graphics/probabilidad/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    setChartData({
+      labels: weights.map(w => w.toFixed(3) + ' kg'),
+      datasets: [
+        {
+          label: 'Probabilidad acumulada de éxito (peso promedio)',
+          data: probabilities,
+          borderColor: '#6366f1',
+          backgroundColor: '#a5b4fc',
+          fill: false,
+          tension: 0.3,
+        },
+      ],
     })
-      .then(res => res.json())
-      .then(json => {
-        const dataPoints = json.data.attributes.cumulative_weights
-        if (!dataPoints || dataPoints.length === 0) {
-          setChartData(null)
-          setLoading(false)
-          return
-        }
 
-        // Ordenar por peso promedio
-        dataPoints.sort((a: any, b: any) => a.avg_weight - b.avg_weight)
+    // Calcular probabilidad acumulada para peso ≤ fixedWeight (0.15 kg)
+    let prob = 0
+    for (let i = 0; i < weights.length; i++) {
+      if (weights[i] <= fixedWeight) {
+        prob = probabilities[i]
+      } else {
+        break
+      }
+    }
 
-        const total = dataPoints.length
-        let cumulativeCount = 0
-        const weights: number[] = []
-        const probabilities: number[] = []
-
-        // Convertir gramos a kilogramos y llenar pesos
-        for (const p of dataPoints) {
-          weights.push(p.avg_weight / 1000)
-        }
-
-        // Calcular probabilidades acumuladas
-        for (let i = 0; i < dataPoints.length; i++) {
-          cumulativeCount += 1
-          probabilities.push(cumulativeCount / total)
-        }
-
-        setChartData({
-          labels: weights.map(w => w.toFixed(3) + ' kg'),
-          datasets: [
-            {
-              label: 'Probabilidad acumulada de éxito (peso promedio)',
-              data: probabilities,
-              borderColor: '#6366f1',
-              backgroundColor: '#a5b4fc',
-              fill: false,
-              tension: 0.3,
-            },
-          ],
-        })
-
-        // Calcular probabilidad acumulada para peso ≤ fixedWeight (0.15 kg)
-        let prob = 0
-        for (let i = 0; i < weights.length; i++) {
-          if (weights[i] <= fixedWeight) {
-            prob = probabilities[i]
-          } else {
-            break
-          }
-        }
-        setProbability(prob)
-
-        setLoading(false)
-      })
-      .catch(error => {
-        console.error('Error al cargar probabilidad:', error)
-        setChartData(null)
-        setLoading(false)
-      })
+    setProbability(prob)
+    setLoading(false)
   }, [])
 
   return (

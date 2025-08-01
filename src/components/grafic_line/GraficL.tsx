@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -9,18 +9,16 @@ import {
   Legend,
   Title
 } from 'chart.js';
-// @ts-expect-error: serviceWeight does not have TypeScript type definitions yet
-import { serviceWeight } from '../../services/grafic/weight/serviceWeight.js';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, Title);
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false,  // clave para responsive
+  maintainAspectRatio: false,
   plugins: {
     title: {
       display: true,
-      text: 'Peso en tiempo real',
+      text: 'Peso en tiempo real (Simulado)',
     },
     legend: {
       display: true,
@@ -45,13 +43,11 @@ const options = {
   },
 };
 
-// Define el tipo de un punto de datos para Chart.js
 interface DataPoint {
   x: number;
   y: number;
 }
 
-// Define el tipo para chartData según Chart.js
 interface ChartDataType {
   datasets: {
     type: 'scatter';
@@ -66,7 +62,6 @@ interface ChartDataType {
 }
 
 function GraficL() {
-  // Estado con tipado explícito
   const [chartData, setChartData] = useState<ChartDataType>({
     datasets: [{
       type: 'scatter',
@@ -80,42 +75,28 @@ function GraficL() {
     }],
   });
 
-  const startTimeRef = useRef(Date.now());
-
-  // Aquí indicamos que el ref puede ser un WebSocket o null
-  const socketRef = useRef<WebSocket | null>(null);
-
-  const lastUpdateRef = useRef(0);
-
   useEffect(() => {
-    // Aquí asumimos que weight es número (ajusta si no es así)
-    socketRef.current = serviceWeight((weight: number) => {
-      const now = Date.now();
+    // Simulación de datos falsos (tiempo vs peso)
+    const fakeData: DataPoint[] = [
+      { x: 1, y: 102 },
+      { x: 2, y: 108 },
+      { x: 3, y: 115 },
+      { x: 4, y: 120 },
+      { x: 5, y: 125 },
+      { x: 6, y: 130 },
+      { x: 7, y: 138 },
+      { x: 8, y: 142 },
+      { x: 9, y: 148 },
+      { x: 10, y: 150 },
+    ];
 
-      if (now - lastUpdateRef.current >= 1000) {
-        lastUpdateRef.current = now;
-        const secondsElapsed = (now - startTimeRef.current) / 1000;
-
-        const newPoint = { x: secondsElapsed, y: weight };
-
-        setChartData(prev => ({
-          ...prev,
-          datasets: [{
-            ...prev.datasets[0],
-            data: [...prev.datasets[0].data, newPoint],
-            showLine: true,
-            tension: 0.4,
-            type: 'scatter',
-          }],
-        }));
-      }
-    });
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-      }
-    };
+    setChartData(prev => ({
+      ...prev,
+      datasets: [{
+        ...prev.datasets[0],
+        data: fakeData,
+      }],
+    }));
   }, []);
 
   return (
