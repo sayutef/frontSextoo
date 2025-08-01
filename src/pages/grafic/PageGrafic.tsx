@@ -2,10 +2,11 @@ import { useState } from 'react';
 import './PageGrafic.css';
 import Menu from '../../components/menu/menu';
 import GraficL from '../../components/grafic_line/GraficL';
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import WorkPeriodSuccessProbability from '../../components/WorkPeriodSuccessProbability/WorkPeriodSuccessProbability.tsx';
 import GraficaBarras from '../../components/grafic_barChart/graficBar.tsx';
 import CorrelationChart from '../../components/graficCorrelation/graficCorrelation.tsx';
+import Derecha from '../../assets/derecha.png'
+import Izquierda from '../../assets/izquierda.png'
 
 function PageGrafic() {
   const graficas = [
@@ -58,7 +59,7 @@ function PageGrafic() {
             onClick={anteriorGrafica}
             className={`absolute left-4 top-1/2 transform -translate-y-1/2 p-3 rounded-full shadow ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
           >
-            <FaArrowLeft size={20} />
+            <img src={Izquierda}></img>
           </button>
 
           {/* Flecha derecha */}
@@ -66,7 +67,7 @@ function PageGrafic() {
             onClick={siguienteGrafica}
             className={`absolute right-4 top-1/2 transform -translate-y-1/2 p-3 rounded-full shadow ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
           >
-            <FaArrowRight size={20} />
+            <img src={Derecha}></img>
           </button>
         </div>
       </div>

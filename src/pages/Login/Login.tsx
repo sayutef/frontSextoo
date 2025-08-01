@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import Swal from 'sweetalert2';               // Importa SweetAlert2
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import Swal from 'sweetalert2';           
 import { HiOutlineMail, HiOutlineLockClosed, HiOutlineUser } from 'react-icons/hi';
 import { serviceLogin } from '../../services/login/serviceLogin';
 import { serviceAccount } from '../../services/acount/serviceAccount';
 import { useNavigate } from 'react-router-dom';
+import Igs from '../../assets/igs.png'
+import Face from '../../assets/facee.png'
+import Twiter from '../../assets/t.png'
 
 export default function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -86,9 +88,9 @@ export default function Login() {
             <div className="max-w-md w-full px-8 -ml-190">
               <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-35">Sign In</h1>
               <div className="flex space-x-4 text-xl text-gray-700 mb-6 justify-center">
-                <FaFacebookF />
-                <FaInstagram />
-                <FaLinkedinIn />
+                <img src={Face}></img>
+                <img src={Igs}></img>
+                <img src={Twiter}></img>
               </div>
               <div className="space-y-4 mb-4">
                 <div className="relative">
@@ -129,9 +131,9 @@ export default function Login() {
             <div className="max-w-md w-full px-12 ml-190">
               <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-20">Create Account</h1>
               <div className="flex space-x-4 text-xl text-gray-700 mb-6 justify-center">
-                <FaFacebookF />
-                <FaInstagram />
-                <FaLinkedinIn />
+                <img src={Face}></img>
+                <img src={Igs}></img>
+                <img src={Twiter}></img>
               </div>
               <div className="space-y-4 mb-4">
                 <div className="relative">

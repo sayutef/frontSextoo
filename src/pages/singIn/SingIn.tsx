@@ -1,4 +1,4 @@
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
+/*import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi'
 
 export default function SignIn() {
@@ -47,3 +47,4 @@ export default function SignIn() {
     </div>
   )
 }
+*/

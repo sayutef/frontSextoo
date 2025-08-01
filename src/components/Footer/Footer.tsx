@@ -1,5 +1,6 @@
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
-
+import Igs from '../../assets/igs.png'
+import Face from '../../assets/facee.png'
+import Twiter from '../../assets/t.png'
 export default function Footer() {
   return (
     <footer className="bg-[#b5dedb] text-white">
@@ -18,13 +19,13 @@ export default function Footer() {
           <h3 className="text-2xl font-bold">PyBot</h3>
           <div className="flex space-x-4">
             <a href="#" className="text-2xl bg-white p-2 rounded-full text-blue-600">
-              <FaFacebookF />
+              <img src={Igs}></img>
             </a>
             <a href="#" className="text-2xl bg-white p-2 rounded-full text-pink-500">
-              <FaInstagram />
+              <img src={Face}></img>
             </a>
             <a href="#" className="text-2xl bg-white p-2 rounded-full text-sky-500">
-              <FaTwitter />
+              <img src={Twiter}></img>
             </a>
           </div>
         </div>

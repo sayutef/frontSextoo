@@ -3,7 +3,6 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
-import SignIn from './pages/singIn/SingIn'
 import Profile from './pages/profile/Profile'
 import PageGrafic from './pages/grafic/PageGrafic'
 import Init from './pages/Init/Init'
@@ -16,7 +15,7 @@ function App() {
       {/* Públicas */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/singin" element={<SignIn />} />
+      
 
       {/* Protegidas */}
       <Route
