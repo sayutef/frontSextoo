@@ -71,23 +71,23 @@ function GraficL() {
       borderColor: 'rgba(75,192,192,0.6)',
       pointRadius: 6,
       showLine: true,
-      tension: 0.4,
+      tension: 0,
     }],
   });
 
   useEffect(() => {
     // Simulación de datos falsos (tiempo vs peso)
     const fakeData: DataPoint[] = [
-      { x: 1, y: 102 },
-      { x: 2, y: 108 },
-      { x: 3, y: 115 },
-      { x: 4, y: 120 },
-      { x: 5, y: 125 },
-      { x: 6, y: 130 },
-      { x: 7, y: 138 },
-      { x: 8, y: 142 },
-      { x: 9, y: 148 },
-      { x: 10, y: 150 },
+      { x: 1, y: 100 },
+      { x: 2, y: 105 },
+      { x: 3, y: 106 },
+      { x: 4, y: 111 },
+      { x: 5, y: 117 },
+      { x: 6, y: 117 },
+      { x: 7, y: 117 },
+      { x: 8, y: 123 },
+      { x: 9, y: 128 },
+      { x: 10, y: 135 },
     ];
 
     setChartData(prev => ({
