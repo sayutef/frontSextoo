@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { cameraService } from "../services/CameraService";
 import type { CamData } from "../../domain/entities/CamMessageData";
-import fallbackImg from "../../assets/error-message.png";
+import fallbackImg from "../../assets/error-message1.png";
 import Menu from "../../components/menu/menu";
 
 const CameraView: React.FC = () => {

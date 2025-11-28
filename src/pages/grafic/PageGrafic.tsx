@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import './PageGrafic.css';
 import Menu from '../../components/menu/menu';
 import GraficL from '../../components/grafic_line/GraficL';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import WorkPeriodSuccessProbability from '../../components/WorkPeriodSuccessProbability/WorkPeriodSuccessProbability.tsx';
-import GraficaBarras from '../../components/grafic_barChart/graficBar.tsx';
+import BarChart from '../../components/grafic_barChart/graficBar.tsx';
 import CorrelationChart from '../../components/graficCorrelation/graficCorrelation.tsx';
 
 function PageGrafic() {
   const graficas = [
     { titulo: 'Ojiva', componente: <WorkPeriodSuccessProbability /> },
     { titulo: 'Relativa', componente: <GraficL /> },
-    { titulo: 'Gráfica de Barras', componente: <GraficaBarras /> },
+    { titulo: 'Gráfica de Barras', componente: <BarChart /> },
     { titulo: 'Gráfica de Correlación', componente: <CorrelationChart /> },
   ];
 

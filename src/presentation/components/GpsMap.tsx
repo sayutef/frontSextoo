@@ -5,7 +5,7 @@ import L from "leaflet";
 import { gpsService } from "../services/GPSService";
 import robotIconUrl from "../../assets/robot-logo.png";
 import type { GPSData } from "../../domain/entities/GPSData";
-import errorVideo from "../../assets/error-message.png";
+import errorVideo from "../../assets/error-message1.png";
 import Menu from "../../components/menu/menu";
 
 // ICONO MAPA
@@ -56,7 +56,7 @@ const GpsMap: React.FC = () => {
       {/* CONTENIDO */}
       <div className="flex-1 p-10 flex flex-col overflow-auto">
         <h2 className="text-4xl font-bold mb-1">Localizar mi robot</h2>
-        <p className="text-2xl text-gray-600 mb-4">
+        <p className={`text-2xl mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
           En este momento usted puede ver su robot en tiempo real mediante un mapa
         </p>
 
