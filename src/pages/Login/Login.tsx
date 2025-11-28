@@ -113,7 +113,7 @@ export default function Login() {
           {/* Sign In Form */}
           <div className="w-1/2 h-full flex items-center justify-center bg-white">
             <div className="max-w-md w-full px-8 -ml-190">
-              <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-35">Sign In</h1>
+              <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-35">Acceso</h1>
               <div className="flex space-x-4 text-xl text-gray-700 mb-6 justify-center">
                 <FaFacebookF />
                 <FaInstagram />
@@ -124,7 +124,7 @@ export default function Login() {
                   <HiOutlineMail className="absolute left-3 top-3.5 text-gray-400" />
                   <input
                     type="email"
-                    placeholder="Email"
+                    placeholder="Correo"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
@@ -134,7 +134,7 @@ export default function Login() {
                   <HiOutlineLockClosed className="absolute left-3 top-3.5 text-gray-400" />
                   <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
@@ -142,13 +142,13 @@ export default function Login() {
                 </div>
               </div>
               <p className="text-sm text-gray-600 hover:text-teal-600 cursor-pointer mb-6">
-                Forgot your password?
+                ¿Olvidaste tu contraseña?
               </p>
               <button
                 onClick={handleSignIn}
                 className="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 transition-colors"
               >
-                SIGN IN
+                Ingresar
               </button>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function Login() {
           {/* Sign Up Form */}
           <div className="w-1/2 h-full flex items-center justify-center bg-white">
             <div className="max-w-md w-full px-12 ml-190">
-              <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-20">Create Account</h1>
+              <h1 className="text-3xl font-bold text-teal-600 mb-6 ml-20">Crear una cuenta</h1>
               <div className="flex space-x-4 text-xl text-gray-700 mb-6 justify-center">
                 <FaFacebookF />
                 <FaInstagram />
@@ -167,7 +167,7 @@ export default function Login() {
                   <HiOutlineUser className="absolute left-3 top-3.5 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Name"
+                    placeholder="Nombre"
                     value={first_name}
                     onChange={(e) => setfirst_name(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
@@ -175,21 +175,21 @@ export default function Login() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Last Name"
+                  placeholder="Apellido"
                   value={last_name}
                   onChange={(e) => setLastName(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
                 />
                 <input
                   type="email"
-                  placeholder="Email"
+                  placeholder="Correo"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
                 />
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder="Contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
@@ -199,7 +199,7 @@ export default function Login() {
                 onClick={handleSignUp}
                 className="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 transition-colors"
               >
-                SIGN UP
+                Inscribirse
               </button>
             </div>
           </div>
@@ -214,28 +214,28 @@ export default function Login() {
           <div className="text-center">
             {isSignUp ? (
               <>
-                <h2 className="text-3xl font-bold mb-4">Welcome Back!</h2>
+                <h2 className="text-3xl font-bold mb-4">Bienvenido!</h2>
                 <p className="mb-6">
-                  To keep connected with us, please log in with your personal info
+                  Mantente conectado con nosotros, por favor ingresa con tu informacion personal.
                 </p>
                 <button
                   onClick={() => setIsSignUp(false)}
                   className="border border-white px-6 py-2 rounded-full hover:bg-white hover:text-teal-600 transition"
                 >
-                  SIGN IN
+                  Iniciar sesion
                 </button>
               </>
             ) : (
               <>
-                <h2 className="text-3xl font-bold mb-4">Hello, Friend!</h2>
+                <h2 className="text-3xl font-bold mb-4">Hola, Amigo!</h2>
                 <p className="mb-6">
-                  Enter your personal details and start your journey with us
+                  Ingresa tus detalles personales e inicia tu jornada con nosotros.
                 </p>
                 <button
                   onClick={() => setIsSignUp(true)}
                   className="border border-white px-6 py-2 rounded-full hover:bg-white hover:text-teal-600 transition"
                 >
-                  SIGN UP
+                  Inscribirse
                 </button>
               </>
             )}
