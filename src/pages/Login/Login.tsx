@@ -14,6 +14,8 @@ export default function Login() {
   const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
   // Estados para Sign In
   const [loginEmail, setLoginEmail] = useState('');
@@ -21,56 +23,83 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    const userData = { first_name, last_name, email, password };
 
-    serviceAccount(
-      userData,
-      (data) => {
-        console.log('Registro exitoso:', data);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Usuario registrado con éxito!',
-          showConfirmButton: false,
-          timer: 1500
-        });
-      },
-      (errorMessage) => {
-        console.error('Error en el registro:', errorMessage);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error en el registro',
-          text: errorMessage,
-        });
-      }
-    );
-  };
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W])[A-Za-z\d\W]{8}$/;
+
+  if (!emailRegex.test(email)) {
+    Swal.fire({
+      icon: "error",
+      title: "Email inválido",
+      text: "El correo debe contener @ y un dominio válido.",
+    });
+    return;
+  }
+
+  if (!passwordRegex.test(password)) {
+    Swal.fire({
+      icon: "error",
+      title: "Contraseña inválida",
+      text: "La contraseña debe tener exactamente 8 caracteres, incluir 1 mayúscula, 1 minúscula y 1 carácter alfanumérico.",
+    });
+    return;
+  }
+
+  const userData = { first_name, last_name, email, password };
+
+  serviceAccount(
+    userData,
+    () => {
+      Swal.fire({
+        icon: 'success',
+        title: '¡Usuario registrado con éxito!',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    },
+    (errorMessage) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text: errorMessage,
+      });
+    }
+  );
+};
+
+
 
   const handleSignIn = () => {
-    const credentials = { email: loginEmail, password: loginPassword };
+  if (!emailRegex.test(loginEmail)) {
+    Swal.fire({
+      icon: "error",
+      title: "Email inválido",
+      text: "El correo debe contener @ y un dominio válido.",
+    });
+    return;
+  }
 
-    serviceLogin(
-      credentials,
-      (data) => {
-        console.log('Inicio de sesión exitoso:', data);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Bienvenido!',
-          showConfirmButton: false,
-          timer: 1500
-        }).then(() => {
-          navigate('/init');
-        });
-      },
-      (error) => {
-        console.error('Error al iniciar sesión:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al iniciar sesión',
-          text: error,
-        });
-      }
-    );
-  };
+  const credentials = { email: loginEmail, password: loginPassword };
+
+  serviceLogin(
+    credentials,
+    (data) => {
+      Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido!',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => navigate('/init'));
+    },
+    (error) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al iniciar sesión',
+        text: error,
+      });
+    }
+  );
+};
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-[#fafaf5]">
